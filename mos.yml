@@ -1,0 +1,57 @@
+author: Allterco
+name: BTShellyControl
+description: BLE remote for Shelly with a Switch component
+version: 1.0
+
+libs_version: latest
+modules_version: latest
+mongoose_os_version: latest
+
+#${mos.version}
+
+arch: esp32
+
+tags:
+  - c
+
+sources:
+  - src
+
+build_vars:
+  ESP_IDF_SDKCONFIG_OPTS: > 
+    ${build_vars.ESP_IDF_SDKCONFIG_OPTS}
+    CONFIG_COMPILER_OPTIMIZATION_SIZE=n
+    CONFIG_COMPILER_OPTIMIZATION_PERF=y
+    CONFIG_PM_ENABLE=y
+    CONFIG_FLASHMODE_QIO=y
+    CONFIG_FLASHFREQ_80M=y
+    CONFIG_BOOTLOADER_LOG_LEVEL_ERROR=y
+    CONFIG_BOOTLOADER_SKIP_VALIDATE_ALWAYS=y
+    CONFIG_BT_NIMBLE_CRYPTO_STACK_MBEDTLS=n
+    CONFIG_ESP32_DEEP_SLEEP_WAKEUP_DELAY=700
+
+config_schema:
+  - ["debug.stdout_uart", -1]
+  - ["debug.stderr_uart", -1]
+
+  - ["bt.enable", true]
+  - ["bt.keep_enabled", true]
+  - ["bt.random_address", false]
+  - ["bt.adv_enable", "b", false, {title: "Advertise services"}]
+  - ["bt.gatt_mtu", 240] 
+
+  - ["board", "o", {title: "Board layout configuration"}]
+  - ["board.led.pin", "i", 2, {title: "LED GPIO pin"}]
+  - ["board.led.active_high", "b", true, {title: "True if LED is on when output is high (1)"}]
+  - ["board.btn.pin", "i", 13, {title: "Button GPIO pin"}]
+  - ["board.btn.pull_up", "b", true, {title: "True if Button is active low and pull-up is needed"}]
+
+  - ["shelly", "o", {title: "Remote Shelly description"}]
+  - ["shelly.btname", "s", "ShellyPlus1PM-441793CECAC8", {title: "Shelly BT name"}]
+  - ["shelly.channel", "i", 0, {title:"Shelly channel to toggle"}]
+
+libs:
+  - location: https://github.com/mongoose-os-libs/bt-common
+
+# Used by the mos tool to catch mos binaries incompatible with this file format
+manifest_version: 2017-05-18
