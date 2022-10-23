@@ -7,7 +7,9 @@
 #include "host/ble_gatt.h"
 
 // strictly esp32
+#include "bootloader_common.h"
 #include "driver/gpio.h"
+#include "esp_ota_ops.h"
 #include "esp_sleep.h"
 
 #include "shellyrpc.h"
@@ -41,6 +43,12 @@ static RTC_DATA_ATTR bool s_btn_pull_up = false;
 static RTC_DATA_ATTR int s_led_pin = -1;
 
 static void deep_sleep(const uint8_t btn_pin) {
+  const esp_partition_t *current_boot_partition = esp_ota_get_boot_partition();
+  esp_partition_pos_t partition_pos;
+  partition_pos.offset = current_boot_partition->address;
+  partition_pos.size = current_boot_partition->size;
+  bootloader_common_update_rtc_retain_mem(&partition_pos, true);
+
   esp_sleep_pd_config(ESP_PD_DOMAIN_RTC_SLOW_MEM, ESP_PD_OPTION_ON);
   esp_sleep_pd_config(ESP_PD_DOMAIN_RTC_FAST_MEM, ESP_PD_OPTION_ON);
   esp_sleep_enable_ext0_wakeup(btn_pin, 0);
