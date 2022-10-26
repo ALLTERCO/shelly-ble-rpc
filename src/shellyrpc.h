@@ -1,3 +1,5 @@
+#pragma once
+
 #include "mgos.h"
 
 struct mbuf *get_rpc_json_output_toggle(struct mbuf *output_buffer,

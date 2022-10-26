@@ -26,13 +26,13 @@ build_vars:
     CONFIG_PM_ENABLE=y
     CONFIG_FLASHMODE_QIO=y
     CONFIG_FLASHFREQ_80M=y
-    CONFIG_BOOTLOADER_LOG_LEVEL_ERROR=y
     CONFIG_BOOTLOADER_SKIP_VALIDATE_ALWAYS=y
+    CONFIG_BOOTLOADER_SKIP_VALIDATE_IN_DEEP_SLEEP=y
     CONFIG_BT_NIMBLE_CRYPTO_STACK_MBEDTLS=n
     CONFIG_ESP32_DEEP_SLEEP_WAKEUP_DELAY=700
     CONFIG_BOOTLOADER_LOG_LEVEL_NONE=y
-    CONFIG_BOOTLOADER_SKIP_VALIDATE_IN_DEEP_SLEEP=y
     CONFIG_ESP_CONSOLE_UART_NONE=y
+
 
 config_schema:
   - ["debug.stdout_uart", -1]
@@ -51,7 +51,7 @@ config_schema:
   - ["board.btn.pull_up", "b", true, {title: "True if Button is active low and pull-up is needed"}]
 
   - ["shelly", "o", {title: "Remote Shelly description"}]
-  - ["shelly.btname", "s", "ShellyPlus1PM-441793CECAC8", {title: "Shelly BT name"}]
+  - ["shelly.btname", "s", "shellyplus1-a8032abe4ca0", {title: "Shelly BT name"}]
   - ["shelly.channel", "i", 0, {title:"Shelly channel to toggle"}]
 
 libs:
